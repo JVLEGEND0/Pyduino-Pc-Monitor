@@ -1,11 +1,11 @@
 # Pyduino-Pc-Monitor
 A tiny Arduino-powered desktop system monitor for Windows.
 
-# 📊 DeskStats
+# 📊 Pyduino Pc Monitor
 
 Turn an Arduino into a real-time desktop system monitor.
 
-DeskStats is a Python + Arduino project that displays live PC information on a 16x2 I2C LCD. It communicates through Serial and can show system statistics, Spotify playback, and alerts.
+Pyduino Pc Monitor is a Python + Arduino project that displays live PC information on a 16x2 I2C LCD. It communicates through Serial and can show system statistics, Spotify playback, and alerts.
 
 ![GitHub release](https://img.shields.io/github/v/release/JVLEGEND0/Pyduino-Pc-Monitor)
 ![Python](https://img.shields.io/badge/Python-3.11+-blue)
