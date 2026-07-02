@@ -1,0 +1,5 @@
+﻿Nome,Quantidade,Componente
+"U1",1," Arduino Uno R3"
+"U2",1,"Baseado em MCP23008, 39 (0x27) LCD 16 x 2 (I2C)"
+"D1",1,"Vermelho LED"
+"R1",1,"220 Ω Resistor"
