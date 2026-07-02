@@ -114,7 +114,7 @@ Authorize the application on the first launch.
 
 ## 🌡️ CPU Temperature
 
-DeskStats uses **Libre Hardware Monitor** to read the CPU temperature in real time.
+Pyduino uses **Libre Hardware Monitor** to read the CPU temperature in real time.
 
 ### Installation
 
