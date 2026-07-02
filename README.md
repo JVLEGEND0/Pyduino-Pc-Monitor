@@ -30,15 +30,15 @@ Pyduino Pc Monitor is a Python + Arduino project that displays live PC informati
 ## 📷 Preview
 
 <p align="center">
-  <img src="idle_pyduino.jpg" width="45%">
-  <img src="cpu_pyduino.jpg" width="45%">
+  <img src="images/idle_pyduino.jpg" width="45%">
+  <img src="images/cpu_pyduino.jpg" width="45%">
 </p>
 <p align="center">
-  <img src="ram_pyduino.jpg" width="45%">
-  <img src="disk_pyduino.jpg" width="45%">
+  <img src="images/ram_pyduino.jpg" width="45%">
+  <img src="images/disk_pyduino.jpg" width="45%">
 </p>
 <p align="center">
-  <img src="spotify_pyduino.jpg" width="45%">
+  <img src="images/spotify_pyduino.jpg" width="45%">
 </p>
 ---
 
@@ -69,9 +69,9 @@ LED
 | Anode | D8 |
 | Cathode | GND (220Ω resistor) |
 
-A wiring diagram is available in:
+A wiring diagram is available here:
 
-![Pyduino Pc Monitor Wiring](Pyduino.png)
+![Pyduino Pc Monitor Wiring](images/Pyduino.png)
 
 ---
 
@@ -91,7 +91,7 @@ pip install -r requirements.txt
 
 Upload the Arduino sketch.
 
-Configure your COM port inside `Pyduino_v0-9-0.py`.
+Configure your COM port inside `Pyduino_v0-9-1.py`.
 
 ---
 
