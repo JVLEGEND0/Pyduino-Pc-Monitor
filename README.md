@@ -91,7 +91,7 @@ pip install -r requirements.txt
 
 Upload the Arduino sketch.
 
-Configure your COM port inside `Pyduino_v0-9-1.py`.
+Configure your COM port inside `Pyduino_app.py`.
 
 ---
 
