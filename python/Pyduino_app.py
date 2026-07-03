@@ -90,25 +90,32 @@ def get_system_info():
 try:
     while True:
         cpu, temp_cpu, memory, cpu_high_temp, memory_t, memory_u, disk, disk_t, disk_u = get_system_info()
-
-        playback = sp.current_playback()
-
-        if playback and playback["item"]:
-            musica = playback["item"]["name"]
-            musica = musica.replace(",", " ")
-            musica = remove_accents(musica)
-            tempo_sec = int(playback["progress_ms"]) // 1000
-            tempo_min = tempo_sec // 60
-            tempo_sec = tempo_sec % 60
-            duracao_sec = int(playback["item"]["duration_ms"]) // 1000
-            duracao_min = duracao_sec // 60
-            duracao_sec = duracao_sec % 60
-        else:
-            musica = "No music playing"
+        
+        try:
+            playback = sp.current_playback()
+        except:
+            musica = "Spotify offline"
             tempo_min = 0
             tempo_sec = 0
             duracao_min = 0
             duracao_sec = 0
+        finally:    
+            if playback and playback["item"]:
+                musica = playback["item"]["name"]
+                musica = musica.replace(",", " ")
+                musica = remove_accents(musica)
+                tempo_sec = int(playback["progress_ms"]) // 1000
+                tempo_min = tempo_sec // 60
+                tempo_sec = tempo_sec % 60
+                duracao_sec = int(playback["item"]["duration_ms"]) // 1000
+                duracao_min = duracao_sec // 60
+                duracao_sec = duracao_sec % 60
+            else:
+                musica = "No music playing"
+                tempo_min = 0
+                tempo_sec = 0
+                duracao_min = 0
+                duracao_sec = 0
 
         data = f"{cpu},{temp_cpu},{memory},{cpu_high_temp},{memory_t},{memory_u},{disk},{disk_t},{disk_u},{musica},{tempo_min},{tempo_sec:02},{duracao_min},{duracao_sec:02}\n"
         ser.write(data.encode())
