@@ -3,3 +3,4 @@
 "U2",1,"Baseado em MCP23008, 39 (0x27) LCD 16 x 2 (I2C)"
 "D1",1,"Vermelho LED"
 "R1",1,"220 Ω Resistor"
+"DIST1",1," Sensor de distância ultrassônico (quatro pinos)"

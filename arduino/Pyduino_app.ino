@@ -7,13 +7,43 @@ int screen = 0;
 int total_screens = 4;
 
 unsigned long lastinfo = 0;
-unsigned long lastswitch = 0;
+//unsigned long lastswitch = 0;
 
-const int timeswitch = 5000;    
+//const int timeswitch = 5000;    
 const int timetimeout = 7000;   
+
+// For HC-SR04
+bool handDetected = false;
+unsigned long lastGesture = 0;
+
+const int gestureDistance = 25;  
+const int gestureCooldown = 200;  
+
+const int trigPin = 9;
+const int echoPin = 10;
 
 int pos = 0;
 unsigned long lastscroll = 0;
+
+float getDistance() {
+
+    digitalWrite(trigPin, LOW);
+    delayMicroseconds(2);
+
+    digitalWrite(trigPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin, LOW);
+
+    long duration = pulseIn(echoPin, HIGH, 30000);
+
+    if (duration == 0) {
+      return -1;
+    }
+
+    float distance = duration * 0.0343 / 2;
+
+    return distance;
+}
 
 void cpuLCD(float cpu, float temp, bool high_temp){
   lcd.setCursor(0, 0);
@@ -21,12 +51,15 @@ void cpuLCD(float cpu, float temp, bool high_temp){
   lcd.print((int)cpu);
   lcd.print("% | ");
   lcd.print((int)temp);
-  lcd.print("C");
+  lcd.print("C     ");
 
   lcd.setCursor(0, 1);
       
   if(high_temp){
     lcd.print("TEMP ALERT!");
+  }
+  else{
+    lcd.print("                ");
   }
 }
 
@@ -34,43 +67,43 @@ void ramLCD(float ram, float memory_total, float memory_used){
   lcd.setCursor(0, 0);
   lcd.print("RAM:");
   lcd.print((int)ram);
-  lcd.print("%");
+  lcd.print("%           ");
   lcd.setCursor(0, 1);
   lcd.print((float)memory_used);
   lcd.print("/");
   lcd.print((float)memory_total);
-  lcd.print("GB");
+  lcd.print("GB         ");
 }
 
 void diskLCD(float disk, float disk_total, float disk_used){
   lcd.setCursor(0, 0);
   lcd.print("DISK:");
   lcd.print((int)disk);
-  lcd.print("%");
+  lcd.print("%     ");
   lcd.setCursor(0, 1);
   lcd.print((float)disk_used);
   lcd.print("/");
   lcd.print((float)disk_total);
-  lcd.print("GB");
+  lcd.print("GB    ");
 }
 
 void musicLCD(String musica, String atual_min, String atual_sec, String total_min, String total_sec){
   lcd.setCursor(0,0);
 
-  if (musica.length() <= 16) {
-    lcd.print(musica);
+  if(musica.length() <= 16) {
+    lcd.print(musica + "       ");
   }
   else{
     String scroll = musica + "    " + musica + "    ";
     
-    if (millis() - lastscroll >= 300) {
+    if(millis() - lastscroll >= 300) {
       lastscroll = millis();
 
       lcd.setCursor(0, 0);
       lcd.print(scroll.substring(pos, pos + 16));
 
       pos++;
-      if (pos > scroll.length() - 16) {
+      if(pos > scroll.length() - 16) {
         pos = 0;
       }
     }
@@ -84,6 +117,7 @@ void musicLCD(String musica, String atual_min, String atual_sec, String total_mi
   lcd.print(total_min);
   lcd.print(":");
   lcd.print(total_sec);
+  lcd.print("       ");
 }
 
 void idleLCD(){
@@ -98,10 +132,12 @@ void setup() {
     lcd.init();
     lcd.backlight();
     pinMode(8, OUTPUT);
+    pinMode(trigPin, OUTPUT);
+    pinMode(echoPin, INPUT);
 }
 
 void loop() {
-  if (Serial.available() > 0) {
+  if(Serial.available() > 0) {
     lastinfo = millis();
 
     String data = Serial.readStringUntil('\n');
@@ -150,9 +186,28 @@ void loop() {
     else{
       digitalWrite(8, LOW);
     }
-    
-    lcd.clear();
 
+    float distance = getDistance();
+
+    if(distance != -1) {
+      if(!(distance < 3 || distance > 150)){
+        if(distance < gestureDistance && !handDetected) {
+          handDetected = true;
+        }
+
+        if(distance >= gestureDistance && handDetected) {
+            handDetected = false;
+            screen++;
+            lcd.clear();
+
+            if (screen >= total_screens){
+                screen = 0;
+          }
+        }
+      } 
+    }  
+    
+    /*
     if (millis() - lastswitch >= timeswitch) {
      lastswitch = millis();
 
@@ -161,15 +216,15 @@ void loop() {
         screen = 0;
       }  
     }
-    
-    if (millis() - lastinfo >= timetimeout) {
+    */
+
+    if(millis() - lastinfo >= timetimeout) {
       idleLCD();
     }
 
     if(screen == 0){
       cpuLCD(cpu, temp, high_temp);
     }
-
     else if(screen == 1){
       ramLCD(ram, memory_total, memory_used);
     }
