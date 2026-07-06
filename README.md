@@ -19,7 +19,7 @@ Pyduino PC Monitor is an open-source Python + Arduino project that turns a 16x2 
 - 📀 Disk usage
 - 🎵 Spotify integration
 - 🕒 Clock and date
-- 👋 Gesture-based screen navigation (HC-SR04)
+- 👋 Gesture-based screen navigation (HC-SR04) - only in v2.0.0 
 - 🚨 LED temperature warning
 - 🔌 Idle screen when the PC disconnects
 - ⚡ Real-time Serial communication
